@@ -1,5 +1,6 @@
 import sys
 import os
+import subprocess
 
 PATH = os.environ["PATH"]
 
@@ -42,7 +43,7 @@ builtinCmds = {"echo":runEchoCmd,"exit":None,"type":runTypeCmd}
 def main():
     while True:
         sys.stdout.write("$ ")
-        user = input()
+        user = input().strip()#removes start and ending spaces
         userSplit = user.split(" ")
         cmd = userSplit[0]
         args = []
@@ -60,13 +61,15 @@ def main():
 
         if cmd == "exit":
             if (len(args) != 1):
-                continue
+                return 0
             if args[0].isdigit():
                 return args[0] 
 
         pathToExec = findExecFile(cmd)
         if pathToExec != None:
-            os.system(f"{pathToExec} {" ".join(args)}")
+            args.insert(0,cmd)
+            subprocess.run(args)
+            continue
         
             
         print(f"{user}: command not found")
