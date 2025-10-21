@@ -35,9 +35,10 @@ def main():
                 continue
             if args[0] in builtinCmds:
                 print(f"{args[0]} is a shell builtin")
-                continue 
-
-        print(f"{user}: command not found")
+            else:
+                print(f"{args[0]}: not found")
+        else:
+            print(f"{user}: command not found")
 
 if __name__ == "__main__":
     main()
