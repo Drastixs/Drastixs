@@ -1,7 +1,11 @@
 import sys
 
+def runEchoCmd(args):
+    print(" ".join(args))
+
 
 def main():
+    builtinCmds = {"echo":runEchoCmd,"exit":None,"type":None}
     while True:
         sys.stdout.write("$ ")
         user = input()
@@ -10,20 +14,28 @@ def main():
         args = []
         if len(userSplit) > 1:
             args = userSplit[1:]
+        commandIsBI = cmd in builtinCmds.keys()#whether command is builtin or not
 
         #start of command check
+        if  commandIsBI: 
+            func = buildinCmds[cmd]
+            if func != None:
+                res = func(args)
+                continue#stop any other command running
+            #else if func is none then pesummed to be in switch case steps
+
         if cmd == "exit":
             if (len(args) != 1):
                 continue
             if args[0].isdigit():
                 return args[0] 
-            
-        elif cmd == "echo":
-            output = " ".join(args)
-            print(output)
 
-        else:#command not found
-            print(f"{user}: command not found")
+        elif cmd == "type":
+            if commandIsBI:
+                print(f"{cmd} is a shell builtin")
+                continue 
+
+        print(f"{user}: command not found")
 
 if __name__ == "__main__":
     main()
