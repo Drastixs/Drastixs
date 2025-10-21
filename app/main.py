@@ -24,6 +24,11 @@ def runEchoCmd(args):
 
 def runPwdCmd(args):
     print(os.getcwd())
+
+def runCdCmd(args):
+    if len(args) == 0:
+        return 1
+    absPath = os.path.abspath(args[0])
     
 
 def runTypeCmd(args):
@@ -33,8 +38,8 @@ def runTypeCmd(args):
     if args[0] in builtinCmds:
         print(f"{args[0]} is a shell builtin")
         return 0
+   
     
-    exePath = findExecFile(searchCmd)  
     if exePath == None: 
         print(f"{searchCmd}: not found")
         return 1
