@@ -34,7 +34,7 @@ def main():
             if len(args) == 0:
                 continue
             if args[0] in builtinCmds:
-                print(f"{cmd} is a shell builtin")
+                print(f"{args[0]} is a shell builtin")
                 continue 
 
         print(f"{user}: command not found")
