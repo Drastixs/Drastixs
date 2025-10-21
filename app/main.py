@@ -1,11 +1,40 @@
 import sys
+import os
+
+PATH = os.environ["PATH"]
 
 def runEchoCmd(args):
     print(" ".join(args))
 
+def runTypeCmd(args):
+    if len(args) == 0:
+        return 1
+    searchCmd = args[0]#cmd we are searching for 
+    if args[0] in builtinCmds:
+        print(f"{args[0]} is a shell builtin")
+        return 0
+    paths = PATH.split(":")
+    exePath = None
+    for path in paths:
+        for entry in os.listdir(path):
+            if os.path.isdir(entry):
+                continue
+            if entry != searchCmd:
+                continue
+            if not os.access(os.path.join(path,entry),os.X_OK):#ensures execution permission below
+                break
+            exePath = os.path.join(path,entry)
+            
+    if exePath == None: 
+        print(f"{searchCmd}: not found")
+        return 1
+    
+    print(f"{searchCmd} is {exePath}")
+    return 0
+         
+builtinCmds = {"echo":runEchoCmd,"exit":None,"type":runTypeCmd}
 
 def main():
-    builtinCmds = {"echo":runEchoCmd,"exit":None,"type":None}
     while True:
         sys.stdout.write("$ ")
         user = input()
@@ -30,13 +59,6 @@ def main():
             if args[0].isdigit():
                 return args[0] 
 
-        elif cmd == "type":
-            if len(args) == 0:
-                continue
-            if args[0] in builtinCmds:
-                print(f"{args[0]} is a shell builtin")
-            else:
-                print(f"{args[0]}: not found")
         else:
             print(f"{user}: command not found")
 
