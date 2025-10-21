@@ -17,6 +17,11 @@ def main():
                 continue
             if args[0].isdigit():
                 return args[0] 
+            
+        elif cmd == "echo":
+            output = " ".join(args)
+            print(output)
+
         else:#command not found
             print(f"{user}: command not found")
 
