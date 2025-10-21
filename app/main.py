@@ -16,6 +16,8 @@ def runTypeCmd(args):
     paths = PATH.split(":")
     exePath = None
     for path in paths:
+        if not os.path.exists(path):
+            continue
         for entry in os.listdir(path):
             if os.path.isdir(entry):
                 continue
