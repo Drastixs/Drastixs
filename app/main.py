@@ -3,18 +3,8 @@ import os
 
 PATH = os.environ["PATH"]
 
-def runEchoCmd(args):
-    print(" ".join(args))
-
-def runTypeCmd(args):
-    if len(args) == 0:
-        return 1
-    searchCmd = args[0]#cmd we are searching for 
-    if args[0] in builtinCmds:
-        print(f"{args[0]} is a shell builtin")
-        return 0
+def findExecFile(searchCmd):
     paths = PATH.split(":")
-    exePath = None
     for path in paths:
         if not os.path.exists(path):
             continue
@@ -25,8 +15,21 @@ def runTypeCmd(args):
                 continue
             if not os.access(os.path.join(path,entry),os.X_OK):#ensures execution permission below
                 break
-            exePath = os.path.join(path,entry)
-            
+            return os.path.join(path,entry)
+    return None
+
+def runEchoCmd(args):
+    print(" ".join(args))
+
+def runTypeCmd(args):
+    if len(args) == 0:
+        return 1
+    searchCmd = args[0]#cmd we are searching for 
+    if args[0] in builtinCmds:
+        print(f"{args[0]} is a shell builtin")
+        return 0
+    
+    exePath = findExecFile(searchCmd)  
     if exePath == None: 
         print(f"{searchCmd}: not found")
         return 1
@@ -61,8 +64,12 @@ def main():
             if args[0].isdigit():
                 return args[0] 
 
-        else:
-            print(f"{user}: command not found")
+        pathToExec = findExecFile(cmd)
+        if pathToExec != None:
+            os.system(f"{pathToExec} {" ".join(args)}")
+        
+            
+        print(f"{user}: command not found")
 
 if __name__ == "__main__":
     main()
