@@ -29,7 +29,7 @@ def runCdCmd(args):
     if len(args) == 0:
         return 1
     absPath = os.path.abspath(args[0])
-    
+    os.chdir(absPath)
 
 def runTypeCmd(args):
     if len(args) == 0:
@@ -47,7 +47,7 @@ def runTypeCmd(args):
     print(f"{searchCmd} is {exePath}")
     return 0
          
-builtinCmds = {"echo":runEchoCmd,"pwd":runPwdCmd,"exit":None,"type":runTypeCmd}
+builtinCmds = {"echo":runEchoCmd,"cd":runCdCmd,"pwd":runPwdCmd,"exit":None,"type":runTypeCmd}
 
 def main():
     while True:
