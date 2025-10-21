@@ -31,7 +31,9 @@ def main():
                 return args[0] 
 
         elif cmd == "type":
-            if commandIsBI:
+            if len(args) == 0:
+                continue
+            if args[0] in builtinCmds:
                 print(f"{cmd} is a shell builtin")
                 continue 
 
