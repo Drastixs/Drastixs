@@ -18,7 +18,7 @@ def main():
 
         #start of command check
         if  commandIsBI: 
-            func = buildinCmds[cmd]
+            func = builtinCmds[cmd]
             if func != None:
                 res = func(args)
                 continue#stop any other command running
