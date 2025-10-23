@@ -3,6 +3,7 @@ import os
 import subprocess
 
 PATH = os.environ["PATH"]
+HOME = os.environ["HOME"]
 
 def findExecFile(searchCmd):
     paths = PATH.split(":")
@@ -28,6 +29,13 @@ def runPwdCmd(args):
 def runCdCmd(args):
     if len(args) == 0:
         return 1
+    path = str(args[0])
+    if path.startswith("~"):
+        if (len(path) > 1):
+            path = HOME#incase it is just ~ as the argument
+        else:
+            path = os.path.join(HOME,path[1:])#join current working directory and path
+            
     absPath = os.path.abspath(args[0])
     if not os.path.exists(absPath):
         print(f"cd: {args[0]}: No such file or directory")
