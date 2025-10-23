@@ -36,7 +36,7 @@ def runCdCmd(args):
         else:
             path = os.path.join(HOME,path[1:])#join current working directory and path
             
-    absPath = os.path.abspath(args[0])
+    absPath = os.path.abspath(path)
     if not os.path.exists(absPath):
         print(f"cd: {args[0]}: No such file or directory")
         return 1
