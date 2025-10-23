@@ -29,6 +29,8 @@ def runCdCmd(args):
     if len(args) == 0:
         return 1
     absPath = os.path.abspath(args[0])
+    if not os.path.exists(absPath):
+        return 1
     os.chdir(absPath)
 
 def runTypeCmd(args):
