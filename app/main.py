@@ -41,8 +41,9 @@ def runTypeCmd(args):
     if args[0] in builtinCmds:
         print(f"{args[0]} is a shell builtin")
         return 0
-   
     
+    exePath = findExecFile(searchCmd)
+
     if exePath == None: 
         print(f"{searchCmd}: not found")
         return 1
