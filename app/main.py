@@ -1,6 +1,7 @@
 import sys
 import os
 import subprocess
+import shlex
 
 PATH = os.environ["PATH"]
 HOME = os.environ["HOME"]
@@ -65,7 +66,7 @@ def main():
     while True:
         sys.stdout.write("$ ")
         user = input().strip()#removes start and ending spaces
-        userSplit = user.split(" ")
+        userSplit = shlex.split(user)
         cmd = userSplit[0]
         args = []
         if len(userSplit) > 1:
